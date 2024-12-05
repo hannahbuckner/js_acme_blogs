@@ -93,6 +93,7 @@ function populateSelectMenu(users) {
     if(!users) return;
     const selectMenu = document.getElementById("selectMenu");
     const options = createSelectOptions(users);
+    
     options.forEach((option) => {
         selectMenu.append(option);
     })
@@ -115,9 +116,14 @@ async function getUserPosts(userId) {
         const response = await fetch("https://jsonplaceholder.typicode.com/posts");
         const jsonPostData = await response.json();
         const posts = [];
+        for(let i = 0; i < jsonPostData.length; i++) {
+            if(jsonPostData[i].userId === userId) posts.push(jsonPostData[i]);
+        }
+        /*
         jsonPostData.forEach(post => {
             if(post.userId === userId) posts.push(post);
         })
+            */
         return posts;
     } catch(e) {
         return;
@@ -141,9 +147,14 @@ async function getPostComments(postId) {
         const response = await fetch("https://jsonplaceholder.typicode.com/comments")
         const jsonCommentData = await response.json();
         const comments = [];
+        for(let i = 0; i < jsonCommentData.length; i++) {
+            if(jsonCommentData[i].postId === postId) comments.push(jsonCommentData[i]);
+        }
+        /*
         jsonCommentData.forEach(comment => {
             if(comment.postId === postId) comments.push(comment);
         })
+            */
         return comments;
     } catch(e) {
         return;
