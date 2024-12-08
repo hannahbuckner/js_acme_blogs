@@ -52,7 +52,7 @@ function addButtonListeners() {
         buttons.forEach((button) => {
             let postId = button.dataset.postId;
             if(postId) {
-                button.addEventListener("click", function(e) {toggleComments(e, postId)}, false);
+                button.addEventListener("click", function(e) {toggleComments(e, postId)}, true);
             }
         })
     }
@@ -113,8 +113,9 @@ async function getUsers() {
 async function getUserPosts(userId) {
     if(!userId) return;
     try {
-        const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+        const response = await fetch(`https://jsonplaceholder.typicode.com/posts?userId=${userId}`);
         const jsonPostData = await response.json();
+        /*
         const posts = [];
         for(let i = 0; i < jsonPostData.length; i++) {
             if(jsonPostData[i].userId === userId) posts.push(jsonPostData[i]);
@@ -124,7 +125,7 @@ async function getUserPosts(userId) {
             if(post.userId === userId) posts.push(post);
         })
             */
-        return posts;
+        return jsonPostData;
     } catch(e) {
         return;
     }
@@ -144,8 +145,9 @@ async function getUser(userId) {
 async function getPostComments(postId) {
     if(!postId) return;
     try {
-        const response = await fetch("https://jsonplaceholder.typicode.com/comments")
+        const response = await fetch(`https://jsonplaceholder.typicode.com/comments?postId=${postId}`)
         const jsonCommentData = await response.json();
+        /*
         const comments = [];
         for(let i = 0; i < jsonCommentData.length; i++) {
             if(jsonCommentData[i].postId === postId) comments.push(jsonCommentData[i]);
@@ -155,7 +157,7 @@ async function getPostComments(postId) {
             if(comment.postId === postId) comments.push(comment);
         })
             */
-        return comments;
+        return jsonCommentData;
     } catch(e) {
         return;
     }
